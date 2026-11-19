@@ -1,0 +1,304 @@
+@import "tailwindcss";
+
+:root {
+  --color-canvas: #ffffff;
+  --color-surface: #f6f7f5;
+  --color-surface-elevated: #edf1ea;
+  --color-border: #dfe4dc;
+  --color-border-strong: #b4beb0;
+  --color-ink: #121713;
+  --color-ink-muted: #4a544c;
+  --color-forest: #2f4a2c;
+  --color-forest-deep: #1b2d1a;
+  --color-forest-soft: #e6efe3;
+  --color-emergency: #9e252a;
+  --color-emergency-bg: #fdf3f3;
+  --color-emergency-border: #e5b7b9;
+  --font-display: var(--font-jakarta), "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  --font-body: var(--font-inter), "Inter", system-ui, -apple-system, sans-serif;
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+    scroll-padding-top: 6rem;
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    overflow-x: clip;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    text-wrap: balance;
+    color: inherit;
+  }
+
+  p {
+    text-wrap: pretty;
+    overflow-wrap: break-word;
+  }
+
+  :where(a:any-link, button, summary, [tabindex]):focus-visible {
+    outline: 3px solid var(--color-forest);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+/* Accessible visually-hidden utility (opts out on focus for skip links) */
+.visually-hidden:where(:not(:focus-within, :active)) {
+  position: absolute !important;
+  clip-path: inset(50%) !important;
+  overflow: hidden !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  white-space: nowrap !important;
+}
+
+.skip-link:focus-visible {
+  position: fixed;
+  inset-block-start: 1rem;
+  inset-inline-start: 1rem;
+  z-index: 100;
+  padding: 0.75rem 1.25rem;
+  border-radius: 9999px;
+  background-color: var(--color-ink);
+  color: #ffffff;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 10px 28px rgba(18, 23, 19, 0.25);
+}
+
+/* Responsive fluid typography & reusable component primitives inside @layer components
+   so Tailwind v4 @layer utilities (e.g. hidden sm:inline-flex) always win cleanly. */
+@layer components {
+  .type-hero-display {
+    font-family: var(--font-display);
+    font-size: clamp(2.15rem, 1.35rem + 3.4vw, 4.35rem);
+    font-weight: 500;
+    line-height: 1.04;
+    letter-spacing: -0.03em;
+  }
+
+  .type-page-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.95rem, 1.4rem + 2vw, 3.15rem);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+  }
+
+  .type-section-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.55rem, 1.2rem + 1.3vw, 2.3rem);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Editorial container */
+  .site-container {
+    width: 100%;
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: clamp(1.125rem, 3.5vw, 2.75rem);
+  }
+
+  /* Pill button language inspired by SYNORA reference */
+  .btn-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    min-block-size: 2.75rem;
+    padding-inline: 1.35rem;
+    padding-block: 0.65rem;
+    border-radius: 9999px;
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease, transform 180ms ease;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .btn-pill {
+      transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease;
+    }
+  }
+
+  .btn-pill-primary {
+    background-color: var(--color-ink);
+    color: #ffffff;
+  }
+
+  .btn-pill-primary:hover {
+    background-color: var(--color-forest-deep);
+  }
+
+  .btn-pill-secondary {
+    background-color: #ffffff;
+    color: var(--color-ink);
+    border-color: var(--color-border-strong);
+  }
+
+  .btn-pill-secondary:hover {
+    background-color: var(--color-surface);
+    border-color: var(--color-ink);
+  }
+
+  .btn-pill-ghost-light {
+    background-color: rgba(255, 255, 255, 0.94);
+    color: var(--color-ink);
+    border-color: rgba(255, 255, 255, 0.45);
+  }
+
+  .btn-pill-ghost-light:hover {
+    background-color: #ffffff;
+  }
+
+  .btn-pill-emergency {
+    background-color: var(--color-emergency);
+    color: #ffffff;
+  }
+
+  .btn-pill-emergency:hover {
+    background-color: #821d21;
+  }
+
+  /* Horizontal pillars carousel */
+  .pillars-track {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(min(84vw, 21rem), 22.5rem);
+    gap: 1.25rem;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    padding-block: 0.25rem 0.75rem;
+  }
+
+  .pillars-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (min-width: 1120px) {
+    .pillars-track {
+      grid-auto-columns: minmax(19.5rem, 1fr);
+    }
+  }
+}
+
+/* Native <dialog> mobile navigation drawer */
+dialog.ks-drawer {
+  pointer-events: auto;
+  inset: 0;
+  inline-size: auto;
+  block-size: auto;
+  max-inline-size: none;
+  max-block-size: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  overflow: visible;
+}
+
+dialog.ks-drawer::backdrop {
+  background-color: rgba(18, 23, 19, 0.56);
+  backdrop-filter: blur(4px);
+}
+
+dialog.ks-drawer[open] .ks-drawer-panel {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.ks-drawer-panel {
+  pointer-events: auto;
+  position: fixed;
+  inset-block: 0;
+  inset-inline-end: 0;
+  inline-size: min(23rem, 88dvw);
+  block-size: 100svh;
+  background-color: #ffffff;
+  color: var(--color-ink);
+  overflow-y: auto;
+  box-shadow: -16px 0 40px rgba(18, 23, 19, 0.18);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  dialog.ks-drawer[open] .ks-drawer-panel {
+    transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1), opacity 200ms ease;
+    @starting-style {
+      transform: translateX(100%);
+      opacity: 0.6;
+    }
+  }
+}
+
+/* Native <dialog> lightbox for medical charts & directions map */
+dialog.ks-lightbox {
+  pointer-events: auto;
+  max-inline-size: min(94dvw, 72rem);
+  max-block-size: 92dvh;
+  margin: auto;
+  padding: 0;
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+  background: #ffffff;
+  color: var(--color-ink);
+  box-shadow: 0 24px 64px rgba(18, 23, 19, 0.32);
+  overflow: hidden;
+}
+
+dialog.ks-lightbox::backdrop {
+  background-color: rgba(18, 23, 19, 0.72);
+  backdrop-filter: blur(6px);
+}
+
+/* Windows Forced Colors (High Contrast Mode) accessibility support */
+@media (forced-colors: active) {
+  .btn-pill,
+  .site-header-pill,
+  .ks-card,
+  dialog.ks-lightbox {
+    border: 1px solid CanvasText;
+  }
+
+  [aria-current="page"] {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
+  }
+}
