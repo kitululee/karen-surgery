@@ -165,7 +165,10 @@ check("Clickable email links verified", mailtoLinks.has("mailto:Receptionist@Kar
 const teamHtml = fs.readFileSync(routeToFile("/team/"), "utf8");
 const mismatchedProfiles = [];
 for (const [name, imgKey] of PRACTITIONER_IMAGE_PAIRS) {
-  const inTeam = teamHtml.includes(name) && teamHtml.includes(`/images/${imgKey}.jpg`);
+  const escaped = imgKey.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const inTeam =
+    teamHtml.includes(name) &&
+    new RegExp(`/images/${escaped}(?:\\.[a-f0-9]{8})?\\.jpg`).test(teamHtml);
   if (!inTeam) mismatchedProfiles.push(`${name} <-> ${imgKey}`);
 }
 check(

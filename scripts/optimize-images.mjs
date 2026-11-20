@@ -1,3 +1,4 @@
+import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import sharp from "sharp";
@@ -61,6 +62,7 @@ function walkFiles(dir) {
 }
 
 async function run() {
+  fs.rmSync(OUT_ROOT, { recursive: true, force: true });
   fs.mkdirSync(OUT_ROOT, { recursive: true });
   const files = walkFiles(SRC_ROOT);
   const manifest = {};
@@ -74,9 +76,12 @@ async function run() {
     const outDir = path.join(OUT_ROOT, dirName);
     fs.mkdirSync(outDir, { recursive: true });
 
+    const sourceBytes = fs.readFileSync(filePath);
+    const hash = crypto.createHash("sha256").update(sourceBytes).digest("hex").slice(0, 8);
+
     let pipeline;
     if (ext === ".bmp") {
-      const raw = decodeUncompressed24BitBmp(fs.readFileSync(filePath));
+      const raw = decodeUncompressed24BitBmp(sourceBytes);
       pipeline = sharp(raw.data, {
         raw: { width: raw.width, height: raw.height, channels: raw.channels },
       });
@@ -92,14 +97,18 @@ async function run() {
       .clone()
       .resize({ width: targetWidth, withoutEnlargement: true });
 
-    const jpgPath = path.join(outDir, `${base}.jpg`);
-    const webpPath = path.join(outDir, `${base}.webp`);
-    const avifPath = path.join(outDir, `${base}.avif`);
+    const hashedKey = `${key}.${hash}`;
+    const jpgPath = path.join(outDir, `${base}.${hash}.jpg`);
+    const stableJpgPath = path.join(outDir, `${base}.jpg`);
+    const webpPath = path.join(outDir, `${base}.${hash}.webp`);
+    const avifPath = path.join(outDir, `${base}.${hash}.avif`);
 
     const jpgInfo = await basePipe
       .clone()
       .jpeg({ quality: 86, mozjpeg: true, progressive: true })
       .toFile(jpgPath);
+
+    fs.copyFileSync(jpgPath, stableJpgPath);
 
     await basePipe
       .clone()
@@ -112,9 +121,9 @@ async function run() {
       .toFile(avifPath);
 
     manifest[key] = {
-      avif: `/images/${key}.avif`,
-      webp: `/images/${key}.webp`,
-      jpg: `/images/${key}.jpg`,
+      avif: `/images/${hashedKey}.avif`,
+      webp: `/images/${hashedKey}.webp`,
+      jpg: `/images/${hashedKey}.jpg`,
       width: jpgInfo.width,
       height: jpgInfo.height,
     };

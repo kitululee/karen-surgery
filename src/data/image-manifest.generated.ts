@@ -9,170 +9,170 @@ export interface OptimizedImageEntry {
 
 export const IMAGE_MANIFEST = {
   "allied-health/alice-coulson": {
-    "avif": "/images/allied-health/alice-coulson.avif",
-    "webp": "/images/allied-health/alice-coulson.webp",
-    "jpg": "/images/allied-health/alice-coulson.jpg",
+    "avif": "/images/allied-health/alice-coulson.1c6fe5a9.avif",
+    "webp": "/images/allied-health/alice-coulson.1c6fe5a9.webp",
+    "jpg": "/images/allied-health/alice-coulson.1c6fe5a9.jpg",
     "width": 213,
     "height": 320
   },
   "allied-health/fabian-collis": {
-    "avif": "/images/allied-health/fabian-collis.avif",
-    "webp": "/images/allied-health/fabian-collis.webp",
-    "jpg": "/images/allied-health/fabian-collis.jpg",
+    "avif": "/images/allied-health/fabian-collis.774c422d.avif",
+    "webp": "/images/allied-health/fabian-collis.774c422d.webp",
+    "jpg": "/images/allied-health/fabian-collis.774c422d.jpg",
     "width": 465,
     "height": 549
   },
   "allied-health/megan-anjeri": {
-    "avif": "/images/allied-health/megan-anjeri.avif",
-    "webp": "/images/allied-health/megan-anjeri.webp",
-    "jpg": "/images/allied-health/megan-anjeri.jpg",
+    "avif": "/images/allied-health/megan-anjeri.627f2375.avif",
+    "webp": "/images/allied-health/megan-anjeri.627f2375.webp",
+    "jpg": "/images/allied-health/megan-anjeri.627f2375.jpg",
     "width": 318,
     "height": 320
   },
   "allied-health/millicent-mboya": {
-    "avif": "/images/allied-health/millicent-mboya.avif",
-    "webp": "/images/allied-health/millicent-mboya.webp",
-    "jpg": "/images/allied-health/millicent-mboya.jpg",
+    "avif": "/images/allied-health/millicent-mboya.14a31751.avif",
+    "webp": "/images/allied-health/millicent-mboya.14a31751.webp",
+    "jpg": "/images/allied-health/millicent-mboya.14a31751.jpg",
     "width": 720,
     "height": 960
   },
   "allied-health/richard-handford": {
-    "avif": "/images/allied-health/richard-handford.avif",
-    "webp": "/images/allied-health/richard-handford.webp",
-    "jpg": "/images/allied-health/richard-handford.jpg",
+    "avif": "/images/allied-health/richard-handford.4ebc8a32.avif",
+    "webp": "/images/allied-health/richard-handford.4ebc8a32.webp",
+    "jpg": "/images/allied-health/richard-handford.4ebc8a32.jpg",
     "width": 671,
     "height": 959
   },
   "doctors/dr-jacqueline-kitulu": {
-    "avif": "/images/doctors/dr-jacqueline-kitulu.avif",
-    "webp": "/images/doctors/dr-jacqueline-kitulu.webp",
-    "jpg": "/images/doctors/dr-jacqueline-kitulu.jpg",
+    "avif": "/images/doctors/dr-jacqueline-kitulu.665dbf34.avif",
+    "webp": "/images/doctors/dr-jacqueline-kitulu.665dbf34.webp",
+    "jpg": "/images/doctors/dr-jacqueline-kitulu.665dbf34.jpg",
     "width": 720,
     "height": 900
   },
   "doctors/dr-margriet-van-unen": {
-    "avif": "/images/doctors/dr-margriet-van-unen.avif",
-    "webp": "/images/doctors/dr-margriet-van-unen.webp",
-    "jpg": "/images/doctors/dr-margriet-van-unen.jpg",
+    "avif": "/images/doctors/dr-margriet-van-unen.e84fa2bc.avif",
+    "webp": "/images/doctors/dr-margriet-van-unen.e84fa2bc.webp",
+    "jpg": "/images/doctors/dr-margriet-van-unen.e84fa2bc.jpg",
     "width": 299,
     "height": 491
   },
   "doctors/dr-marie-louise-cantamessa": {
-    "avif": "/images/doctors/dr-marie-louise-cantamessa.avif",
-    "webp": "/images/doctors/dr-marie-louise-cantamessa.webp",
-    "jpg": "/images/doctors/dr-marie-louise-cantamessa.jpg",
+    "avif": "/images/doctors/dr-marie-louise-cantamessa.ed926d32.avif",
+    "webp": "/images/doctors/dr-marie-louise-cantamessa.ed926d32.webp",
+    "jpg": "/images/doctors/dr-marie-louise-cantamessa.ed926d32.jpg",
     "width": 627,
     "height": 820
   },
   "doctors/dr-zohair-kaka": {
-    "avif": "/images/doctors/dr-zohair-kaka.avif",
-    "webp": "/images/doctors/dr-zohair-kaka.webp",
-    "jpg": "/images/doctors/dr-zohair-kaka.jpg",
+    "avif": "/images/doctors/dr-zohair-kaka.d0f3b12a.avif",
+    "webp": "/images/doctors/dr-zohair-kaka.d0f3b12a.webp",
+    "jpg": "/images/doctors/dr-zohair-kaka.d0f3b12a.jpg",
     "width": 295,
     "height": 354
   },
   "doctors/eunice-muthoni-mugo": {
-    "avif": "/images/doctors/eunice-muthoni-mugo.avif",
-    "webp": "/images/doctors/eunice-muthoni-mugo.webp",
-    "jpg": "/images/doctors/eunice-muthoni-mugo.jpg",
+    "avif": "/images/doctors/eunice-muthoni-mugo.ee77788e.avif",
+    "webp": "/images/doctors/eunice-muthoni-mugo.ee77788e.webp",
+    "jpg": "/images/doctors/eunice-muthoni-mugo.ee77788e.jpg",
     "width": 720,
     "height": 960
   },
   "doctors/hannah-murimi": {
-    "avif": "/images/doctors/hannah-murimi.avif",
-    "webp": "/images/doctors/hannah-murimi.webp",
-    "jpg": "/images/doctors/hannah-murimi.jpg",
+    "avif": "/images/doctors/hannah-murimi.32f866d0.avif",
+    "webp": "/images/doctors/hannah-murimi.32f866d0.webp",
+    "jpg": "/images/doctors/hannah-murimi.32f866d0.jpg",
     "width": 720,
     "height": 960
   },
   "location/karen-surgery-directions-map": {
-    "avif": "/images/location/karen-surgery-directions-map.avif",
-    "webp": "/images/location/karen-surgery-directions-map.webp",
-    "jpg": "/images/location/karen-surgery-directions-map.jpg",
+    "avif": "/images/location/karen-surgery-directions-map.70b8d229.avif",
+    "webp": "/images/location/karen-surgery-directions-map.70b8d229.webp",
+    "jpg": "/images/location/karen-surgery-directions-map.70b8d229.jpg",
     "width": 650,
     "height": 508
   },
   "medical-info/cdc-hpv-vaccine-guide-2021": {
-    "avif": "/images/medical-info/cdc-hpv-vaccine-guide-2021.avif",
-    "webp": "/images/medical-info/cdc-hpv-vaccine-guide-2021.webp",
-    "jpg": "/images/medical-info/cdc-hpv-vaccine-guide-2021.jpg",
+    "avif": "/images/medical-info/cdc-hpv-vaccine-guide-2021.2808db7e.avif",
+    "webp": "/images/medical-info/cdc-hpv-vaccine-guide-2021.2808db7e.webp",
+    "jpg": "/images/medical-info/cdc-hpv-vaccine-guide-2021.2808db7e.jpg",
     "width": 1280,
     "height": 1659
   },
   "medical-info/cdc-immunization-schedule-2025": {
-    "avif": "/images/medical-info/cdc-immunization-schedule-2025.avif",
-    "webp": "/images/medical-info/cdc-immunization-schedule-2025.webp",
-    "jpg": "/images/medical-info/cdc-immunization-schedule-2025.jpg",
+    "avif": "/images/medical-info/cdc-immunization-schedule-2025.a43342ad.avif",
+    "webp": "/images/medical-info/cdc-immunization-schedule-2025.a43342ad.webp",
+    "jpg": "/images/medical-info/cdc-immunization-schedule-2025.a43342ad.jpg",
     "width": 1280,
     "height": 935
   },
   "mental-health/dr-tonya-shaw": {
-    "avif": "/images/mental-health/dr-tonya-shaw.avif",
-    "webp": "/images/mental-health/dr-tonya-shaw.webp",
-    "jpg": "/images/mental-health/dr-tonya-shaw.jpg",
+    "avif": "/images/mental-health/dr-tonya-shaw.6f448000.avif",
+    "webp": "/images/mental-health/dr-tonya-shaw.6f448000.webp",
+    "jpg": "/images/mental-health/dr-tonya-shaw.6f448000.jpg",
     "width": 659,
     "height": 839
   },
   "mental-health/judy-gitau": {
-    "avif": "/images/mental-health/judy-gitau.avif",
-    "webp": "/images/mental-health/judy-gitau.webp",
-    "jpg": "/images/mental-health/judy-gitau.jpg",
+    "avif": "/images/mental-health/judy-gitau.a014c6dc.avif",
+    "webp": "/images/mental-health/judy-gitau.a014c6dc.webp",
+    "jpg": "/images/mental-health/judy-gitau.a014c6dc.jpg",
     "width": 400,
     "height": 293
   },
   "mental-health/kaye-alianda-mcilwaine": {
-    "avif": "/images/mental-health/kaye-alianda-mcilwaine.avif",
-    "webp": "/images/mental-health/kaye-alianda-mcilwaine.webp",
-    "jpg": "/images/mental-health/kaye-alianda-mcilwaine.jpg",
+    "avif": "/images/mental-health/kaye-alianda-mcilwaine.e30e1132.avif",
+    "webp": "/images/mental-health/kaye-alianda-mcilwaine.e30e1132.webp",
+    "jpg": "/images/mental-health/kaye-alianda-mcilwaine.e30e1132.jpg",
     "width": 450,
     "height": 600
   },
   "physiotherapy/altaf-mapara": {
-    "avif": "/images/physiotherapy/altaf-mapara.avif",
-    "webp": "/images/physiotherapy/altaf-mapara.webp",
-    "jpg": "/images/physiotherapy/altaf-mapara.jpg",
+    "avif": "/images/physiotherapy/altaf-mapara.dd3270a8.avif",
+    "webp": "/images/physiotherapy/altaf-mapara.dd3270a8.webp",
+    "jpg": "/images/physiotherapy/altaf-mapara.dd3270a8.jpg",
     "width": 720,
     "height": 897
   },
   "physiotherapy/anna-kaminski": {
-    "avif": "/images/physiotherapy/anna-kaminski.avif",
-    "webp": "/images/physiotherapy/anna-kaminski.webp",
-    "jpg": "/images/physiotherapy/anna-kaminski.jpg",
+    "avif": "/images/physiotherapy/anna-kaminski.cbd293fd.avif",
+    "webp": "/images/physiotherapy/anna-kaminski.cbd293fd.webp",
+    "jpg": "/images/physiotherapy/anna-kaminski.cbd293fd.jpg",
     "width": 346,
     "height": 411
   },
   "physiotherapy/sally-dixson": {
-    "avif": "/images/physiotherapy/sally-dixson.avif",
-    "webp": "/images/physiotherapy/sally-dixson.webp",
-    "jpg": "/images/physiotherapy/sally-dixson.jpg",
+    "avif": "/images/physiotherapy/sally-dixson.4e7f101e.avif",
+    "webp": "/images/physiotherapy/sally-dixson.4e7f101e.webp",
+    "jpg": "/images/physiotherapy/sally-dixson.4e7f101e.jpg",
     "width": 433,
     "height": 682
   },
   "physiotherapy/sarah-peacock": {
-    "avif": "/images/physiotherapy/sarah-peacock.avif",
-    "webp": "/images/physiotherapy/sarah-peacock.webp",
-    "jpg": "/images/physiotherapy/sarah-peacock.jpg",
+    "avif": "/images/physiotherapy/sarah-peacock.ad6c374a.avif",
+    "webp": "/images/physiotherapy/sarah-peacock.ad6c374a.webp",
+    "jpg": "/images/physiotherapy/sarah-peacock.ad6c374a.jpg",
     "width": 720,
     "height": 652
   },
   "practice/karen-surgery-building": {
-    "avif": "/images/practice/karen-surgery-building.avif",
-    "webp": "/images/practice/karen-surgery-building.webp",
-    "jpg": "/images/practice/karen-surgery-building.jpg",
+    "avif": "/images/practice/karen-surgery-building.3a8af413.avif",
+    "webp": "/images/practice/karen-surgery-building.3a8af413.webp",
+    "jpg": "/images/practice/karen-surgery-building.3a8af413.jpg",
     "width": 1280,
     "height": 622
   },
   "practice/karen-surgery-entrance": {
-    "avif": "/images/practice/karen-surgery-entrance.avif",
-    "webp": "/images/practice/karen-surgery-entrance.webp",
-    "jpg": "/images/practice/karen-surgery-entrance.jpg",
+    "avif": "/images/practice/karen-surgery-entrance.677c4f44.avif",
+    "webp": "/images/practice/karen-surgery-entrance.677c4f44.webp",
+    "jpg": "/images/practice/karen-surgery-entrance.677c4f44.jpg",
     "width": 680,
     "height": 460
   },
   "reception/anne-ragui": {
-    "avif": "/images/reception/anne-ragui.avif",
-    "webp": "/images/reception/anne-ragui.webp",
-    "jpg": "/images/reception/anne-ragui.jpg",
+    "avif": "/images/reception/anne-ragui.f94326fd.avif",
+    "webp": "/images/reception/anne-ragui.f94326fd.webp",
+    "jpg": "/images/reception/anne-ragui.f94326fd.jpg",
     "width": 720,
     "height": 744
   }
