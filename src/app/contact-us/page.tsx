@@ -13,6 +13,8 @@ import { PRACTICE } from "@/data/practice";
 import { OPENING_HOURS } from "@/data/hours";
 import { PageHero } from "@/components/PageHero";
 import { OptimizedImage } from "@/components/OptimizedImage";
+import { AppointmentTriggerButton } from "@/components/AppointmentTriggerButton";
+import { GeneralInquiryForm } from "@/components/GeneralInquiryForm";
 
 export const metadata = buildMetadata({
   title: "Contact Us",
@@ -52,13 +54,16 @@ export default function ContactUsPage() {
       {/* SECTION 1 — Routine Appointments & General Enquiries */}
       <section className="py-12 sm:py-16 bg-white border-b border-[var(--color-border)]">
         <div className="site-container space-y-8">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--color-forest)]">
-              Routine Appointments &amp; General Enquiries
-            </p>
-            <h2 className="type-section-title mt-1.5 text-[var(--color-ink)]">
-              Reception Contact Channels
-            </h2>
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--color-forest)]">
+                Routine Appointments &amp; General Enquiries
+              </p>
+              <h2 className="type-section-title mt-1.5 text-[var(--color-ink)]">
+                Reception Contact Channels
+              </h2>
+            </div>
+            <AppointmentTriggerButton label="Request an Appointment" variant="primary" />
           </div>
 
           <div className="grid gap-6 md:grid-cols-3">
@@ -192,6 +197,46 @@ export default function ContactUsPage() {
                 <span>Map &amp; Directions</span>
               </Link>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 1B — Online General Enquiry Form */}
+      <section
+        id="enquiry-form"
+        className="py-12 sm:py-16 bg-[var(--color-surface)] border-b border-[var(--color-border)] scroll-mt-24"
+      >
+        <div className="site-container grid gap-8 lg:grid-cols-12 items-start">
+          <div className="lg:col-span-4 space-y-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--color-forest)]">
+              Written Enquiries
+            </p>
+            <h2 className="type-section-title text-[var(--color-ink)]">
+              Send a General Enquiry
+            </h2>
+            <p className="text-sm leading-relaxed text-[var(--color-ink-muted)]">
+              Have a non-urgent question about services, opening hours, insurance claim forms,
+              partner laboratory collections, or practitioner availability? Send a message directly
+              to Karen Surgery reception.
+            </p>
+            <div className="rounded-xl border border-[var(--color-border)] bg-white p-4 space-y-2.5 text-xs text-[var(--color-ink-muted)]">
+              <p className="font-semibold text-[var(--color-ink)]">Need to request an appointment instead?</p>
+              <p>
+                Use our Appointment Request form to select a specific service category, preferred
+                practitioner, and preferred date.
+              </p>
+              <div className="pt-1">
+                <AppointmentTriggerButton
+                  label="Open Appointment Request"
+                  variant="secondary"
+                  className="!min-h-[2.4rem] !text-xs"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="lg:col-span-8">
+            <GeneralInquiryForm />
           </div>
         </div>
       </section>

@@ -6,11 +6,12 @@ import { PageHero } from "@/components/PageHero";
 import { ExpandableFigure } from "@/components/ExpandableFigure";
 import { OptimizedImage } from "@/components/OptimizedImage";
 import { EmergencyBand } from "@/components/EmergencyBand";
+import { LocationMap } from "@/components/LocationMap";
 
 export const metadata = buildMetadata({
   title: "Where to Find Us",
   description:
-    "Karen Surgery is located at 333 Ngong Road, Karen, Kenya — 333 metres from the Karen roundabout. View our interactive Google Map, directions, and schematic landmark map.",
+    "Karen Surgery is located at 333 Ngong Road, Karen, Kenya — 333 metres from the Karen roundabout. View our interactive OpenStreetMap location, directions, and schematic landmark map.",
   path: "/location/",
 });
 
@@ -86,29 +87,7 @@ export default function LocationPage() {
           </div>
 
           <div className="lg:col-span-7 flex flex-col gap-4">
-            <div className="overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] min-h-[24rem] flex-1">
-              <iframe
-                title="Interactive Google Map showing Karen Surgery at 333 Ngong Road, Karen, Nairobi"
-                src={PRACTICE.address.googleMapsEmbedUrl}
-                width="800"
-                height="520"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                className="h-full min-h-[24rem] w-full border-0"
-              />
-            </div>
-            <p className="text-xs text-[var(--color-ink-muted)]">
-              Need turn-by-turn navigation on your phone?{" "}
-              <a
-                href={PRACTICE.address.googleMapsDirectionsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-semibold text-[var(--color-forest)] underline underline-offset-4 hover:text-[var(--color-ink)]"
-              >
-                Launch Google Maps Directions to 333 Ngong Road, Karen
-              </a>
-              .
-            </p>
+            <LocationMap />
           </div>
         </div>
       </section>

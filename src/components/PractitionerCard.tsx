@@ -1,6 +1,8 @@
 import { Globe, Instagram, Mail, Phone } from "lucide-react";
 import type { Practitioner } from "@/data/team";
+import { departmentToServiceSlug } from "@/lib/api";
 import { OptimizedImage } from "./OptimizedImage";
+import { AppointmentTriggerButton } from "./AppointmentTriggerButton";
 
 export function PractitionerCard({ practitioner }: { practitioner: Practitioner }) {
   return (
@@ -27,7 +29,7 @@ export function PractitionerCard({ practitioner }: { practitioner: Practitioner 
             {practitioner.role}
           </p>
           <h3 className="mt-1.5 font-[var(--font-display)] text-xl font-semibold tracking-tight text-[var(--color-ink)] sm:text-2xl">
-            {practitioner.name}
+            {practitioner.profileHeading ?? practitioner.name}
           </h3>
           {practitioner.qualifications ? (
             <p className="mt-1 text-sm font-medium text-[var(--color-ink-muted)]">
@@ -94,12 +96,23 @@ export function PractitionerCard({ practitioner }: { practitioner: Practitioner 
           </div>
         ) : null}
 
-        {/* Direct Practitioner Contact Bar */}
-        {(practitioner.email ||
+        {/* Direct Practitioner Contact & Appointment Request Bar */}
+        {(practitioner.department !== "support" ||
+          practitioner.email ||
           (practitioner.phones && practitioner.phones.length > 0) ||
           practitioner.website ||
           practitioner.instagram) ? (
           <div className="mt-6 pt-4 border-t border-[var(--color-border)] flex flex-wrap items-center gap-2.5">
+            {practitioner.department !== "support" ? (
+              <AppointmentTriggerButton
+                variant="card"
+                label="Request Appointment"
+                serviceSlug={departmentToServiceSlug(practitioner.department)}
+                practitionerSlug={practitioner.id}
+                practitionerName={practitioner.name}
+              />
+            ) : null}
+
             {practitioner.email ? (
               <a
                 href={`mailto:${practitioner.email}`}

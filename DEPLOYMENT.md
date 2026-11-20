@@ -1,144 +1,171 @@
-# Deployment Runbook — Karen Surgery Linux VM
+# Deployment Runbook — Karen Surgery (Public Site, Backend API & Admin Portal)
 
-This website builds into a **pure static production bundle (`out/`)** using Next.js Static Export (`output: 'export'`). No database, no paid hosting platform, and no production Node.js process is required on the server.
+Karen Surgery Phase 2 comprises three cleanly separated deployables that run smoothly on a single Linux VM (Nginx + Node.js 22 + PostgreSQL/SQLite), while also supporting static GitHub Pages previews for the public frontend:
 
----
-
-## 1. Architecture Choice: Why Native Nginx Static Hosting (No Docker / No Node Runtime)
-
-- **Zero runtime overhead:** Serving pre-rendered HTML, CSS, JS, self-hosted WOFF2 fonts, and pre-optimized AVIF/WebP/JPEG images directly through Nginx uses negligible RAM/CPU and yields sub-20ms TTFB even on a minimal 1 vCPU / 1 GB RAM Linux VM.
-- **Minimal attack surface:** No public Node.js server, no database, no admin panel, and no container daemon overhead.
-- **Instant zero-downtime releases & rollbacks:** Atomic symlink switching (`/var/www/karen-surgery/current -> releases/<timestamp>`) enables instant 1-command rollbacks with zero downtime.
-- **Built-in process management:** Nginx is natively managed by `systemd` (`systemctl enable --now nginx`).
-
-*(If Docker were strictly required by a broader multi-service infrastructure later, a simple `nginx:alpine` image mounting `out/` and `deploy/nginx-karen-surgery.conf` can wrap the exact same artifacts without changing a single line of application code.)*
+1. **Public Website (`/` -> `out/`):** Next.js 15 Static Export served by Nginx at `https://www.karensurgery.com` (and previewable on GitHub Pages).
+2. **Backend API (`server/` -> `server/dist/`):** Fastify 5 Node.js API bound to `127.0.0.1:4000`, proxied by Nginx at `https://api.karensurgery.com`.
+3. **Independent Administration Portal (`admin/` -> `admin/dist/`):** React + Vite SPA served by Nginx at `https://admin.karensurgery.com` (never linked in public navigation, `noindex`).
 
 ---
 
-## 2. Server Requirements
+## 1. Server Requirements (Linux VM)
 
-- **OS:** Ubuntu 22.04 / 24.04 LTS or Debian 12+ (any modern Linux distribution with Nginx)
-- **Resources:** 1 vCPU, 512 MB–1 GB RAM, 5 GB disk (built site `out/` is < 6 MB)
-- **Packages:** `nginx`, `certbot`, `python3-certbot-nginx`, `ufw`, `rsync`
-- **Local build machine:** Node.js 20+ (builds `out/` cleanly before `rsync`ing to the VM — the VM itself does not even need Node.js installed!)
+- **OS:** Ubuntu 22.04 / 24.04 LTS or Debian 12+
+- **Resources:** 1–2 vCPU, 1–2 GB RAM, 10+ GB SSD
+- **Packages:** `nginx`, `certbot`, `python3-certbot-nginx`, `ufw`, `rsync`, `nodejs` (v22 LTS), and `postgresql` (recommended) or `sqlite3` (for zero-daemon SQLite deployments)
 
 ---
 
-## 3. Initial One-Time VM Setup (Run on Linux VM)
+## 2. DNS Records
 
-> **Important:** Before making changes on an existing VM, always inspect running services (`sudo ss -tulpn`), existing Nginx sites (`ls -la /etc/nginx/sites-enabled/`), and disk space (`df -h`) to avoid port conflicts or overwriting existing services.
+Point all required hostnames to the Linux VM's public IP address:
+- `A` record: `@` (`karensurgery.com`) -> `<VM_PUBLIC_IP>`
+- `A` record: `www` (`www.karensurgery.com`) -> `<VM_PUBLIC_IP>`
+- `A` record: `api` (`api.karensurgery.com`) -> `<VM_PUBLIC_IP>`
+- `A` record: `admin` (`admin.karensurgery.com`) -> `<VM_PUBLIC_IP>`
 
-### 3.1 Install Nginx, Certbot & Firewall Tools
+---
+
+## 3. Initial One-Time Linux VM Setup
+
+> Inspect running services (`sudo ss -tulpn`), existing Nginx sites (`ls -la /etc/nginx/sites-enabled/`), and disk space (`df -h`) before modifying an existing VM.
+
+### 3.1 Install Base Packages & Firewall
 ```bash
 sudo apt update
-sudo apt install -y nginx certbot python3-certbot-nginx ufw rsync
-```
+sudo apt install -y nginx certbot python3-certbot-nginx ufw rsync postgresql sqlite3
 
-### 3.2 Configure Firewall (UFW)
-Ensure SSH stays open **before** enabling UFW:
-```bash
 sudo ufw allow OpenSSH
-sudo ufw allow 'Nginx Full'   # Opens ports 80 (HTTP) and 443 (HTTPS)
+sudo ufw allow 'Nginx Full'
 sudo ufw enable
-sudo ufw status
 ```
 
-### 3.3 Prepare Web Root Directories
+### 3.2 Create Directories & Secrets File
 ```bash
-sudo mkdir -p /var/www/karen-surgery/releases /var/www/certbot
-sudo chown -R "$USER":"$USER" /var/www/karen-surgery
+sudo mkdir -p \
+  /var/www/karen-surgery/releases \
+  /var/www/karen-surgery-admin/releases \
+  /var/www/karen-surgery-api/current \
+  /var/www/karen-surgery-api/uploads \
+  /var/lib/karen-surgery \
+  /var/backups/karen-surgery \
+  /var/www/certbot \
+  /etc/karen-surgery
+
+sudo chown -R www-data:www-data /var/lib/karen-surgery /var/www/karen-surgery-api/uploads
 ```
 
-### 3.4 Install Nginx Configuration
-Copy `deploy/nginx-karen-surgery.conf` to `/etc/nginx/sites-available/karen-surgery`:
+Create `/etc/karen-surgery/api.env` from `server/.env.example` (set strict `600` permissions):
 ```bash
-sudo cp /path/to/nginx-karen-surgery.conf /etc/nginx/sites-available/karen-surgery
-sudo ln -sf /etc/nginx/sites-available/karen-surgery /etc/nginx/sites-enabled/karen-surgery
-# Only remove the default site if no other service uses it:
-# sudo rm -f /etc/nginx/sites-enabled/default
-sudo nginx -t
-sudo systemctl enable --now nginx
-sudo systemctl reload nginx
+sudo cp server/.env.example /etc/karen-surgery/api.env
+sudo chmod 600 /etc/karen-surgery/api.env
+sudo chown root:www-data /etc/karen-surgery/api.env
+```
+
+Required production values inside `/etc/karen-surgery/api.env`:
+- `NODE_ENV=production`
+- `HOST=127.0.0.1`, `PORT=4000`
+- `COOKIE_SECRET=<64-char random hex via openssl rand -hex 32>`
+- `COOKIE_SECURE=true`
+- `CORS_ORIGINS=https://www.karensurgery.com,https://karensurgery.com,https://admin.karensurgery.com`
+- `DATABASE_URL=postgres://karen_surgery:<password>@127.0.0.1:5432/karen_surgery` *(or omit `DATABASE_URL` and set `SQLITE_PATH=/var/lib/karen-surgery/karen-surgery.sqlite`)*
+- `UPLOAD_DIR=/var/www/karen-surgery-api/uploads`
+- `PUBLIC_API_URL=https://api.karensurgery.com`
+- `ADMIN_PORTAL_URL=https://admin.karensurgery.com`
+- `RECEPTION_EMAIL=Receptionist@KarenSurgery.com`
+- `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM` *(add when practice SMTP credentials are provided)*
+
+---
+
+## 4. Deploy Backend API & Provision Initial Super Admin
+
+```bash
+# Build server bundle (on build machine or VM)
+cd server && npm ci && npm run build
+
+# Sync dist/, migrations/, package.json, package-lock.json to /var/www/karen-surgery-api/current
+# Install production dependencies on VM:
+cd /var/www/karen-surgery-api/current && npm ci --omit=dev
+
+# Run idempotent schema migrations and seed verified Karen Surgery data
+set -a && source /etc/karen-surgery/api.env && set +a
+node dist/db/migrate.js
+node dist/db/seed.js
+
+# Provision the initial SUPER_ADMIN account securely (prompts interactively, or reads ADMIN_EMAIL/ADMIN_NAME/ADMIN_PASSWORD)
+node dist/cli/create-admin.js
+```
+
+Install and start the hardened systemd service (`deploy/karen-surgery-api.service`):
+```bash
+sudo cp deploy/karen-surgery-api.service /etc/systemd/system/karen-surgery-api.service
+sudo systemctl daemon-reload
+sudo systemctl enable --now karen-surgery-api
+sudo systemctl status karen-surgery-api --no-pager
 ```
 
 ---
 
-## 4. DNS & HTTPS (Let's Encrypt) Setup
+## 5. Build & Deploy Public Website & Admin Portal
 
-### 4.1 DNS Records
-Point your domain DNS records to the Linux VM's public IP address:
-- `A` record: `@` (`karensurgery.com`) → `<VM_PUBLIC_IP>`
-- `A` record: `www` (`www.karensurgery.com`) → `<VM_PUBLIC_IP>`
-- *(Optional `AAAA` records if IPv6 is enabled on the VM)*
-
-Wait for DNS propagation (`dig +short www.karensurgery.com`).
-
-### 4.2 Provision Free TLS Certificate (Certbot)
+### 5.1 Public Website (`https://www.karensurgery.com`)
 ```bash
-sudo certbot --nginx -d karensurgery.com -d www.karensurgery.com --redirect
-```
-Verify automatic renewal timer:
-```bash
-sudo systemctl status certbot.timer
-sudo certbot renew --dry-run
+NEXT_PUBLIC_API_URL="https://api.karensurgery.com" npm run build
+# Deploy out/ atomically using deploy/deploy.sh (or rsync to /var/www/karen-surgery/releases/<stamp> and update current symlink)
 ```
 
-### 4.3 Enable HSTS (After Confirming HTTPS Works)
-Uncomment the `Strict-Transport-Security` header line inside `/etc/nginx/sites-available/karen-surgery`, then verify and reload:
+### 5.2 Independent Admin Portal (`https://admin.karensurgery.com`)
 ```bash
+cd admin
+VITE_API_URL="https://api.karensurgery.com" \
+VITE_PUBLIC_SITE_URL="https://www.karensurgery.com" \
+npm run build
+# Upload admin/dist/ to /var/www/karen-surgery-admin/releases/<stamp> and symlink /var/www/karen-surgery-admin/current
+```
+
+### 5.3 Install Nginx Configs & Provision Let's Encrypt TLS
+```bash
+sudo cp deploy/nginx-karen-surgery.conf /etc/nginx/sites-available/karen-surgery
+sudo cp deploy/nginx-api-and-admin.conf /etc/nginx/sites-available/karen-surgery-phase2
+sudo ln -sf /etc/nginx/sites-available/karen-surgery /etc/nginx/sites-enabled/
+sudo ln -sf /etc/nginx/sites-available/karen-surgery-phase2 /etc/nginx/sites-enabled/
 sudo nginx -t && sudo systemctl reload nginx
+
+sudo certbot --nginx \
+  -d karensurgery.com \
+  -d www.karensurgery.com \
+  -d api.karensurgery.com \
+  -d admin.karensurgery.com \
+  --redirect
 ```
 
 ---
 
-## 5. Automated Zero-Downtime Deployment & Rollback
+## 6. Automated Backups (Database + Uploaded Media)
 
-> **Security Rule:** Never store or paste your SSH private key inside this repository, scripts, logs, or documentation. Pass its local path via environment variable at deploy time (`chmod 600 ~/.ssh/<key>`).
-
-### Deploy a New Release (from local workstation)
+Install `deploy/backup-db.sh` and schedule via root cron:
 ```bash
-chmod +x deploy/deploy.sh deploy/rollback.sh
-
-DEPLOY_HOST="<VM_PUBLIC_IP>" \
-DEPLOY_USER="<SSH_USERNAME>" \
-SSH_KEY="$HOME/.ssh/<YOUR_PRIVATE_KEY>" \
-./deploy/deploy.sh
-```
-What `deploy/deploy.sh` does:
-1. Runs `npm run build` locally (optimizing all images and exporting static HTML/CSS/JS to `out/`).
-2. Uploads `out/` via `rsync` into `/var/www/karen-surgery/releases/<UTC_TIMESTAMP>/`.
-3. Atomically swaps `/var/www/karen-surgery/current` to the new release.
-4. Validates Nginx syntax (`nginx -t`) and reloads gracefully (`systemctl reload nginx`).
-5. Retains the 5 most recent releases for instant rollback.
-
-### Instant Rollback to Previous Release
-```bash
-DEPLOY_HOST="<VM_PUBLIC_IP>" \
-DEPLOY_USER="<SSH_USERNAME>" \
-SSH_KEY="$HOME/.ssh/<YOUR_PRIVATE_KEY>" \
-./deploy/rollback.sh
+sudo cp deploy/backup-db.sh /usr/local/bin/karen-surgery-backup.sh
+sudo chmod 750 /usr/local/bin/karen-surgery-backup.sh
+# Add daily 02:15 cron entry:
+# 15 2 * * * /usr/local/bin/karen-surgery-backup.sh >> /var/log/karen-surgery-backup.log 2>&1
 ```
 
 ---
 
-## 6. Post-Deployment Verification Checklist
+## 7. GitHub Pages Public Preview Hosting
+
+`.github/workflows/deploy-pages.yml` automatically deploys the public static bundle to `https://kitululee.github.io/karen-surgery/` on every push to `main`:
+- By default (`vars.NEXT_PUBLIC_API_URL` unset), the public site operates smoothly in **static preview mode**: Leaflet OpenStreetMap works live, the grounded Practice Assistant answers verified practice questions with full safety guardrails, and appointment/enquiry forms prepare instant Email & WhatsApp messages for reception.
+- Once your Linux VM API is live at `https://api.karensurgery.com`, you can optionally connect GitHub Pages directly to the live backend by adding the repository variable `NEXT_PUBLIC_API_URL` in GitHub Settings -> Actions -> Variables (and adding `https://kitululee.github.io` to `CORS_ORIGINS` on the VM).
+
+---
+
+## 8. Post-Deployment Verification Checklist
 
 ```bash
-# 1. Verify HTTPS and security headers
+curl -s https://api.karensurgery.com/api/public/health
 curl -I https://www.karensurgery.com/
-
-# 2. Verify all core routes return HTTP 200
-for route in "" about/ team/ services/ doctors/ mental-health/ physiotherapy/ \
-             allied-health-professionals/ laboratory-services/ opening-hours/ \
-             medical-info/ location/ contact-us/ sitemap.xml robots.txt; do
-  code=$(curl -s -o /dev/null -w "%{http_code}" "https://www.karensurgery.com/$route")
-  echo "$code /$route"
-done
-
-# 3. Verify legacy redirect returns 301
-curl -I https://www.karensurgery.com/medical-info/child-immunization-schedule/
-
-# 4. Verify Nginx service & error logs
-sudo systemctl status nginx --no-pager
-sudo tail -n 30 /var/log/nginx/error.log
+curl -I https://admin.karensurgery.com/   # Must include X-Robots-Tag: noindex
+sudo systemctl status karen-surgery-api nginx --no-pager
 ```

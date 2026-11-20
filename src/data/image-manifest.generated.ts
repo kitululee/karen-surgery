@@ -47,8 +47,8 @@ export const IMAGE_MANIFEST = {
     "avif": "/images/doctors/dr-jacqueline-kitulu.avif",
     "webp": "/images/doctors/dr-jacqueline-kitulu.webp",
     "jpg": "/images/doctors/dr-jacqueline-kitulu.jpg",
-    "width": 510,
-    "height": 768
+    "width": 720,
+    "height": 900
   },
   "doctors/dr-margriet-van-unen": {
     "avif": "/images/doctors/dr-margriet-van-unen.avif",

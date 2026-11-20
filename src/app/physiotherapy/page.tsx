@@ -5,6 +5,7 @@ import { getPractitionersByDepartment, PHYSIOTHERAPY_INTRO } from "@/data/team";
 import { PageHero } from "@/components/PageHero";
 import { PhysioFilterList } from "@/components/PhysioFilterList";
 import { EmergencyBand } from "@/components/EmergencyBand";
+import { AppointmentTriggerButton } from "@/components/AppointmentTriggerButton";
 
 export const metadata = buildMetadata({
   title: "Physiotherapy",
@@ -27,10 +28,17 @@ export default function PhysiotherapyPage() {
         title="Physiotherapists"
         description="Diverse international training across Kenya, Australia, Canada, and the UK — with direct self-referral or GP-coordinated rehabilitation under one roof."
         actions={
-          <Link href="/contact-us/" className="btn-pill btn-pill-primary">
-            <Phone className="h-4 w-4" aria-hidden="true" />
-            <span>Reception Enquiries</span>
-          </Link>
+          <>
+            <AppointmentTriggerButton
+              label="Request Appointment"
+              variant="primary"
+              serviceSlug="physiotherapy"
+            />
+            <Link href="/contact-us/" className="btn-pill btn-pill-secondary">
+              <Phone className="h-4 w-4" aria-hidden="true" />
+              <span>Reception Enquiries</span>
+            </Link>
+          </>
         }
       />
 

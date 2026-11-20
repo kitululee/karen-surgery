@@ -18,6 +18,7 @@ import { OptimizedImage } from "@/components/OptimizedImage";
 import { PillarsCarousel } from "@/components/PillarsCarousel";
 import { ServiceIcon } from "@/components/ServiceIcon";
 import { EmergencyBand } from "@/components/EmergencyBand";
+import { AppointmentTriggerButton } from "@/components/AppointmentTriggerButton";
 
 export const metadata = buildMetadata({
   title: PRACTICE.name,
@@ -330,6 +331,11 @@ export default function HomePage() {
                 <h3 className="mt-3 font-[var(--font-display)] text-sm font-semibold leading-snug text-[var(--color-ink)] group-hover:text-[var(--color-forest)]">
                   {person.name}
                 </h3>
+                {person.qualifications ? (
+                  <p className="mt-0.5 text-[0.7rem] font-medium leading-snug text-[var(--color-forest)]">
+                    {person.qualifications}
+                  </p>
+                ) : null}
                 <p className="mt-0.5 text-xs text-[var(--color-ink-muted)]">{person.role}</p>
               </Link>
             ))}
@@ -391,17 +397,11 @@ export default function HomePage() {
               </div>
 
               <div className="mt-7 pt-5 border-t border-[var(--color-border)] flex flex-wrap gap-3">
-                <Link href="/opening-hours/" className="btn-pill btn-pill-primary">
+                <AppointmentTriggerButton label="Request Appointment" variant="primary" />
+                <Link href="/opening-hours/" className="btn-pill btn-pill-secondary">
                   <span>Full Opening Hours</span>
                   <ArrowRight className="h-4 w-4" aria-hidden="true" />
                 </Link>
-                <a
-                  href={`tel:${PRACTICE.contact.receptionPhones[0].tel}`}
-                  className="btn-pill btn-pill-secondary tabular-nums"
-                >
-                  <Phone className="h-4 w-4" aria-hidden="true" />
-                  <span>{PRACTICE.contact.receptionPhones[0].display}</span>
-                </a>
               </div>
             </div>
 

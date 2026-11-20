@@ -5,6 +5,7 @@ import { getPractitionersByDepartment, MENTAL_HEALTH_INTRO } from "@/data/team";
 import { PageHero } from "@/components/PageHero";
 import { PractitionerCard } from "@/components/PractitionerCard";
 import { EmergencyBand } from "@/components/EmergencyBand";
+import { AppointmentTriggerButton } from "@/components/AppointmentTriggerButton";
 
 export const metadata = buildMetadata({
   title: "Mental Health",
@@ -54,10 +55,16 @@ export default function MentalHealthPage() {
               profile below, or book through reception.
             </p>
             <div className="pt-2 flex flex-col gap-2.5">
+              <AppointmentTriggerButton
+                label="Request Appointment"
+                variant="primary"
+                serviceSlug="mental-health"
+                className="w-full"
+              />
               <Link href="/opening-hours/" className="btn-pill btn-pill-secondary w-full">
                 <span>View Practice Hours</span>
               </Link>
-              <Link href="/contact-us/" className="btn-pill btn-pill-primary w-full">
+              <Link href="/contact-us/" className="btn-pill btn-pill-secondary w-full">
                 <span>Contact Reception</span>
               </Link>
             </div>

@@ -1,0 +1,35 @@
+# Karen Surgery — Phase 2 Backend API systemd Service
+# Install path: /etc/systemd/system/karen-surgery-api.service
+# Secrets file: /etc/karen-surgery/api.env (chmod 600, owned by root:www-data or deploy user)
+#
+# Enable & start:
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now karen-surgery-api
+#   sudo journalctl -u karen-surgery-api -f
+
+[Unit]
+Description=Karen Surgery Backend API (Fastify / Node.js)
+After=network-online.target postgresql.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/karen-surgery-api/current
+EnvironmentFile=/etc/karen-surgery/api.env
+Environment=NODE_ENV=production
+ExecStart=/usr/bin/node /var/www/karen-surgery-api/current/dist/index.js
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=15
+
+# Systemd sandboxing & privilege hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/karen-surgery /var/www/karen-surgery-api/uploads
+
+[Install]
+WantedBy=multi-user.target

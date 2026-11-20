@@ -12,6 +12,7 @@ export type DepartmentSlug =
 export interface Practitioner {
   id: string;
   name: string;
+  profileHeading?: string;
   qualifications?: string;
   role: string;
   department: DepartmentSlug;
@@ -80,16 +81,20 @@ export const PRACTITIONERS: Practitioner[] = [
   },
   {
     id: "dr-jacqueline-kitulu",
-    name: "Dr. Jacqueline Kitulu",
-    qualifications: "MB.Ch.B, MBA-HCM",
-    role: "General Practitioner",
+    name: "Dr. Jacqueline W. Kitulu",
+    profileHeading: "Meet Dr. Jacqueline W. Kitulu, MBS, OGW",
+    qualifications: "MBS, OGW, MD, MBA FCMA",
+    role: "General Practitioner | MBA in Healthcare Management",
     department: "doctors",
     departmentLabel: "Doctors & Medical Staff",
     departmentHref: "/doctors/",
     image: "doctors/dr-jacqueline-kitulu",
-    imagePosition: "50% 18%",
+    imagePosition: "50% 15%",
     bio: [
-      "Dr. Jackie Kitulu graduated from The University of Nairobi and has been a general practitioner for more than 20 years. In addition to her medical training, she has an MBA in Healthcare Management from Strathmore Business School. She is the Immediate Past President (2016–2020) of the Kenya Medical Association, the umbrella professional association for doctors in Kenya. She also chaired the Kenya Medical Women's Association (2008–2012). Jackie is the 1st Deputy Governor of the Kenya Red Cross Society and sits on several other boards – National Hospital Insurance Fund (NHIF), the Kenya Medical Practitioners and Dentists Council, the Kenya Healthcare Federation (KHF) amongst others. She is the recipient of the Distinguished Service Award from the Kenya Medical Association 2019, Jacob's Well Award for Women Living Deliberately 2017, Annual Best Communicators 2016, Africa Most Astounding Female Professional Award 2012 and OWIT (Organisation of Women in International Trade) Woman of the Year 2010.",
+      "Dr. Jackie Kitulu is an experienced General Practitioner with over 25 years of clinical practice. A graduate of the University of Nairobi, she holds an MBA in Healthcare Management from Strathmore Business School. She is committed to holistic, compassionate and patient-centred care, with a strong belief in building trusting, long-term relationships with her patients.",
+      "She has distinguished herself through national and international medical leadership, having served as President of the Kenya Medical Association (2016–2020) and President of the World Medical Association (2025–2026), becoming the first Kenyan to hold this prestigious international position.",
+      "In recognition of her contribution to medicine, leadership and public service, she has been awarded the Moran of the Order of the Burning Spear (MBS) and the Order of the Grand Warrior (OGW) by the Government of Kenya.",
+      "Despite her extensive leadership experience, her greatest professional fulfilment remains caring for patients and making a meaningful difference in their health and wellbeing.",
     ],
   },
   {

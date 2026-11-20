@@ -22,7 +22,7 @@ const EXPECTED_ROUTES = [
 const PRACTITIONER_IMAGE_PAIRS = [
   ["Dr. Margriet van Unen-van Enk", "doctors/dr-margriet-van-unen"],
   ["Dr. Marie-Louise Cantamessa", "doctors/dr-marie-louise-cantamessa"],
-  ["Dr. Jacqueline Kitulu", "doctors/dr-jacqueline-kitulu"],
+  ["Dr. Jacqueline W. Kitulu", "doctors/dr-jacqueline-kitulu"],
   ["Mrs. Hannah Murimi", "doctors/hannah-murimi"],
   ["Dr. Z. A. Kaka", "doctors/dr-zohair-kaka"],
   ["Eunice Muthoni Mugo", "doctors/eunice-muthoni-mugo"],

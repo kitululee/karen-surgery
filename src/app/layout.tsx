@@ -3,6 +3,8 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
+import { AppointmentProvider } from "@/components/AppointmentContext";
+import { PracticeChatbot } from "@/components/PracticeChatbot";
 import { getClinicJsonLd } from "@/lib/seo";
 import { PRACTICE } from "@/data/practice";
 
@@ -54,11 +56,14 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <SiteHeader />
-        <main id="main-content" tabIndex={-1} className="flex-1 outline-none">
-          {children}
-        </main>
-        <SiteFooter />
+        <AppointmentProvider>
+          <SiteHeader />
+          <main id="main-content" tabIndex={-1} className="flex-1 outline-none">
+            {children}
+          </main>
+          <SiteFooter />
+          <PracticeChatbot />
+        </AppointmentProvider>
       </body>
     </html>
   );

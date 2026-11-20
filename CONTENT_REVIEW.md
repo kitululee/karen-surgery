@@ -60,7 +60,7 @@ Per the Content Integrity policy, **no clinical facts, practitioners, qualificat
 ### 2.3 Time-Sensitive Statements in Practitioner Biographies
 - **Source URLs:** `/doctors/`, `/physiotherapy/`, `/allied-health-professionals/`
 - **Findings (all preserved verbatim):**
-  - **Dr. Jacqueline Kitulu** (`/doctors/`): References `"more than 20 years"`, `"Immediate Past President (2016 -2020)"`, and board membership at `"National Hospital Insurance Fund (NHIF)"` (note: Kenya transitioned NHIF to SHA).
+  - **Dr. Jacqueline W. Kitulu, MBS, OGW, MD, MBA FCMA** (`/doctors/`): **UPDATED & APPROVED BY CLIENT** — Biography, honours (`MBS, OGW, MD, MBA FCMA`), role (`General Practitioner | MBA in Healthcare Management`), WMA Presidency (2025–2026), and official high-resolution portrait (`819×1024`) updated across Homepage, `/doctors/`, `/team/`, Chatbot knowledge, and Backend database seed.
   - **Dr. Z. A. Kaka** (`/doctors/`): References `"29 years' experience"`.
   - **Dr. Margriet van Unen-van Enk, Dr. Marie-Louise Cantamessa, Mrs. Hannah Murimi, Eunice Muthoni Mugo, Anne Ragui**: Confirm current active roster.
   - **Altaf Mapara** (`/physiotherapy/`): References `"currently works with Kenya 7's Rugby team"`.

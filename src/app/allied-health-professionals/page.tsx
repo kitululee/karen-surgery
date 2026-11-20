@@ -5,6 +5,7 @@ import { ALLIED_HEALTH_INTRO, getPractitionersByDepartment } from "@/data/team";
 import { PageHero } from "@/components/PageHero";
 import { PractitionerCard } from "@/components/PractitionerCard";
 import { EmergencyBand } from "@/components/EmergencyBand";
+import { AppointmentTriggerButton } from "@/components/AppointmentTriggerButton";
 
 export const metadata = buildMetadata({
   title: "Allied Health Professionals",
@@ -27,10 +28,17 @@ export default function AlliedHealthPage() {
         title="Allied Health Professionals"
         description={ALLIED_HEALTH_INTRO}
         actions={
-          <Link href="/contact-us/" className="btn-pill btn-pill-primary">
-            <Phone className="h-4 w-4" aria-hidden="true" />
-            <span>Reception Enquiries</span>
-          </Link>
+          <>
+            <AppointmentTriggerButton
+              label="Request Appointment"
+              variant="primary"
+              serviceSlug="allied-health"
+            />
+            <Link href="/contact-us/" className="btn-pill btn-pill-secondary">
+              <Phone className="h-4 w-4" aria-hidden="true" />
+              <span>Reception Enquiries</span>
+            </Link>
+          </>
         }
       />
 

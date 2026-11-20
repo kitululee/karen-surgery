@@ -1,10 +1,11 @@
 import Link from "next/link";
-import { CalendarClock, Phone } from "lucide-react";
+import { CalendarClock } from "lucide-react";
 import { buildMetadata } from "@/lib/seo";
 import { getPractitionersByDepartment, PRACTITIONERS } from "@/data/team";
 import { PageHero } from "@/components/PageHero";
 import { PractitionerCard } from "@/components/PractitionerCard";
 import { EmergencyBand } from "@/components/EmergencyBand";
+import { AppointmentTriggerButton } from "@/components/AppointmentTriggerButton";
 
 export const metadata = buildMetadata({
   title: "Doctors & Medical Staff",
@@ -30,13 +31,14 @@ export default function DoctorsPage() {
         description="Our General Practitioners, Practice Nurse, Consultant Radiologist, and practice support team provide continuous primary care for individuals and multi-generational families."
         actions={
           <>
-            <Link href="/opening-hours/" className="btn-pill btn-pill-primary">
+            <AppointmentTriggerButton
+              label="Request Appointment"
+              variant="primary"
+              serviceSlug="family-medicine"
+            />
+            <Link href="/opening-hours/" className="btn-pill btn-pill-secondary">
               <CalendarClock className="h-4 w-4" aria-hidden="true" />
               <span>Consulting Hours</span>
-            </Link>
-            <Link href="/contact-us/" className="btn-pill btn-pill-secondary">
-              <Phone className="h-4 w-4" aria-hidden="true" />
-              <span>Book via Reception</span>
             </Link>
           </>
         }
